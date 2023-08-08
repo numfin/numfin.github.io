@@ -3,9 +3,6 @@ use bevy::window::PrimaryWindow;
 
 use super::{Enemy, ENEMY_SIZE};
 
-#[derive(Component)]
-pub struct WallHitSound;
-
 pub fn update_enemy_rotation(
     mut commands: Commands,
     mut enemies: Query<(&Transform, &mut Enemy)>,
@@ -18,37 +15,31 @@ pub fn update_enemy_rotation(
         let translation = transform.translation;
         let enemy_size_half = ENEMY_SIZE / 2.;
         let mut direction_changed = false;
+        let half_w = (window.width() / 2.) - enemy_size_half;
+        let half_h = (window.height() / 2.) - enemy_size_half;
 
-        if translation.x >= window.width() - enemy_size_half {
+        if translation.x >= half_w {
             enemy.direction.x = -1.;
             direction_changed = true;
         }
-        if translation.x <= enemy_size_half {
+        if translation.x <= -half_w {
             enemy.direction.x = 1.;
             direction_changed = true;
         }
-        if translation.y >= window.height() - enemy_size_half {
+        if translation.y >= half_h {
             enemy.direction.y = -1.;
             direction_changed = true;
         }
-        if translation.y <= enemy_size_half {
+        if translation.y <= -half_h {
             enemy.direction.y = 1.;
             direction_changed = true;
         }
 
         if direction_changed {
-            commands.spawn((
-                AudioBundle {
-                    source: asset_server.load("audio/hitwall.wav"),
-                    settings: PlaybackSettings::ONCE,
-                },
-                WallHitSound,
-            ));
+            commands.spawn((AudioBundle {
+                source: asset_server.load("audio/hitwall.wav"),
+                settings: PlaybackSettings::ONCE,
+            },));
         }
-    }
-}
-pub fn play_sound(query_music: Query<&AudioSink, With<WallHitSound>>) {
-    if let Ok(sink) = query_music.get_single() {
-        sink.play()
     }
 }

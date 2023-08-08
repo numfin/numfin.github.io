@@ -39,23 +39,14 @@ pub fn player_hit_star(
 
             if distance < min_distance {
                 if let Some(sfx_path) = COIN_SOUND_FILENAMES.choose(&mut thread_rng()) {
-                    commands.spawn((
-                        AudioBundle {
-                            source: asset_server.load(*sfx_path),
-                            settings: PlaybackSettings::ONCE,
-                        },
-                        StarCollectSound,
-                    ));
+                    commands.spawn(AudioBundle {
+                        source: asset_server.load(*sfx_path),
+                        settings: PlaybackSettings::ONCE,
+                    });
                     commands.entity(enemy_entity).despawn();
                     score.value += 1;
                 }
             }
         }
-    }
-}
-
-pub fn play_sound(query_music: Query<&AudioSink, With<StarCollectSound>>) {
-    if let Ok(sink) = query_music.get_single() {
-        sink.play()
     }
 }

@@ -25,8 +25,8 @@ pub fn spawn_over_time(
 ) {
     let window = window.single();
     if spawn_timer.timer.tick(time.delta()).finished() {
-        let random_x = random::<f32>() * window.width();
-        let random_y = random::<f32>() * window.height();
+        let random_x = (random::<f32>() - 0.5) * window.width();
+        let random_y = (random::<f32>() - 0.5) * window.height();
 
         commands.spawn((
             SpriteBundle {

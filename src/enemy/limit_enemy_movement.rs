@@ -12,11 +12,11 @@ pub fn limit_enemy_movement(
     for mut transform in &mut enemies {
         let mut translation = transform.translation;
         let enemy_size_half = ENEMY_SIZE / 2.;
+        let half_w = (window.width() / 2.) - enemy_size_half;
+        let half_h = (window.height() / 2.) - enemy_size_half;
 
-        translation.x = translation.x.max(enemy_size_half);
-        translation.x = translation.x.min(window.width() - enemy_size_half);
-        translation.y = translation.y.max(enemy_size_half);
-        translation.y = translation.y.min(window.height() - enemy_size_half);
+        translation.x = translation.x.max(-half_w).min(half_w);
+        translation.y = translation.y.max(-half_h).min(half_h);
 
         transform.translation = translation;
     }

@@ -24,24 +24,15 @@ pub fn enemy_collision(
                 .distance(enemy_transform.translation);
 
             if distance < min_distance {
-                commands.spawn((
-                    AudioBundle {
-                        source: asset_server.load("audio/explosion.wav"),
-                        settings: PlaybackSettings::ONCE,
-                    },
-                    EnemyHitSound,
-                ));
+                commands.spawn(AudioBundle {
+                    source: asset_server.load("audio/explosion.wav"),
+                    settings: PlaybackSettings::ONCE,
+                });
                 if let Some(mut player_entity) = commands.get_entity(player_entity) {
                     player_entity.despawn();
                     game_over_events.send(GameOverEvent)
                 }
             }
         }
-    }
-}
-
-pub fn play_sound(query_music: Query<&AudioSink, With<EnemyHitSound>>) {
-    if let Ok(sink) = query_music.get_single() {
-        sink.play()
     }
 }

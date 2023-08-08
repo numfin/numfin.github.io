@@ -4,3 +4,6 @@ skip_core_tasks = true
 [tasks.dev]
 script = "cargo run"
 watch = { watch = ["src"] }
+[tasks.check]
+script = "cargo check"
+watch = { watch = ["src", "Cargo.toml"] }

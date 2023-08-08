@@ -7,7 +7,7 @@ use bevy::prelude::*;
 
 use crate::system_sets::{LimitMovementSystemSet, MovementSystemSet};
 
-use self::enemy_collision::{enemy_collision, play_sound};
+use self::enemy_collision::enemy_collision;
 use self::limit_player_movement::limit_player_movement;
 use self::player_movement::player_movement;
 use self::spawn_player::spawn_player;
@@ -21,10 +21,7 @@ impl Plugin for PlayerPlugin {
         app.add_systems(Startup, spawn_player)
             .add_systems(Update, player_movement.in_set(MovementSystemSet))
             .add_systems(Update, limit_player_movement.in_set(LimitMovementSystemSet))
-            .add_systems(
-                Update,
-                (enemy_collision.after(MovementSystemSet), play_sound),
-            );
+            .add_systems(Update, enemy_collision.after(MovementSystemSet));
     }
 }
 

@@ -11,8 +11,8 @@ pub fn spawn_enemies(
 ) {
     let window = window.single();
     for _ in 0..ENEMIES_AMOUNT {
-        let random_x = random::<f32>() * window.width();
-        let random_y = random::<f32>() * window.height();
+        let random_x = (random::<f32>() - 0.5) * window.width();
+        let random_y = (random::<f32>() - 0.5) * window.height();
 
         commands.spawn((
             SpriteBundle {
@@ -21,7 +21,7 @@ pub fn spawn_enemies(
                 ..Default::default()
             },
             Enemy {
-                direction: Vec2::new(random(), random()).normalize(),
+                direction: Vec2::new(random::<f32>() - 0.5, random::<f32>() - 0.5).normalize(),
             },
         ));
     }
@@ -33,7 +33,7 @@ pub struct EnemySpawnTimer {
 impl Default for EnemySpawnTimer {
     fn default() -> Self {
         Self {
-            timer: Timer::from_seconds(2., TimerMode::Repeating),
+            timer: Timer::from_seconds(5., TimerMode::Repeating),
         }
     }
 }
@@ -47,8 +47,8 @@ pub fn spawn_enemy_over_time(
 ) {
     let window = window.single();
     if spawn_timer.timer.tick(time.delta()).finished() {
-        let random_x = random::<f32>() * window.width();
-        let random_y = random::<f32>() * window.height();
+        let random_x = (random::<f32>() - 0.5) * window.width();
+        let random_y = (random::<f32>() - 0.5) * window.height();
 
         commands.spawn((
             SpriteBundle {
@@ -57,7 +57,7 @@ pub fn spawn_enemy_over_time(
                 ..Default::default()
             },
             Enemy {
-                direction: Vec2::new(random(), random()).normalize(),
+                direction: Vec2::new(random::<f32>() - 0.5, random::<f32>() - 0.5).normalize(),
             },
         ));
     }

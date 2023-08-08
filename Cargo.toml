@@ -3,6 +3,9 @@ name = "ngio"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [profile.dev]
 opt-level = 1
 [profile.dev.package."*"]
@@ -11,7 +14,7 @@ opt-level = 3
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = { version = "0.11.0", features = ["wav"] }
+bevy = { version = "0.11.0", features = ["wav", "bmp"] }
 derive_more = "0.99.17"
 leafwing-input-manager = "0.10.0"
 rand = "0.8.5"
